@@ -1,0 +1,5 @@
+org.kurento.jsonrpc.internal.http
+org.kurento.jsonrpc.internal.server
+org.kurento.jsonrpc.internal.server.config
+org.kurento.jsonrpc.internal.ws
+org.kurento.jsonrpc.server
