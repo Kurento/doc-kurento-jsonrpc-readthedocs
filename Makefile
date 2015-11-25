@@ -107,7 +107,7 @@ langdoc:
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-client/* $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-client && mvn clean package -DskipTests
 	  
-	  javadoc -Xdoclint:none -windowtitle "Kurento Repository Internal Javadoc" \
+	  javadoc $(DOCLINT) -windowtitle "Kurento Repository Internal Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/internal \
 	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-client/src/main/java/ \
 	    -subpackages org.kurento.jsonrpc
@@ -118,7 +118,7 @@ langdoc:
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-server/* $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-server && mvn clean package -DskipTests
 	  
-	  javadoc -Xdoclint:none -windowtitle "Kurento Repository Server Javadoc" \
+	  javadoc $(DOCLINT) -windowtitle "Kurento Repository Server Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/server \
 	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-server/src/main/java/ \
 	    -subpackages org.kurento.jsonrpc
