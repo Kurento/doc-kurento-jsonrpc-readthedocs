@@ -11,6 +11,7 @@
 /var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/main/java/org/kurento/jsonrpc/internal/server/ServerSession.java
 /var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/main/java/org/kurento/jsonrpc/internal/ws/CloseStatusHelper.java
 /var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/main/java/org/kurento/jsonrpc/server/JsonRpcHandlerRegistration.java
+/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/main/java/org/kurento/jsonrpc/internal/server/NativeSessionHandler.java
 /var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/main/java/org/kurento/jsonrpc/internal/server/BeanCreatingHelper.java
 /var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/main/java/org/kurento/jsonrpc/internal/server/PerSessionJsonRpcHandler.java
 /var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/main/java/org/kurento/jsonrpc/server/JsonRpcHandlerRegistry.java
