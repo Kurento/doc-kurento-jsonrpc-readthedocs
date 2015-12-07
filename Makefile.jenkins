@@ -105,7 +105,7 @@ langdoc:
 	  cd  $(BUILDDIR)/langdoc && git clone https://github.com/Kurento/kurento-java.git && cd kurento-java && git checkout kurento-java-$(CLIENT_JAVA_VERSION) || git checkout $(CLIENT_JAVA_VERSION) || echo "Using master branch"
 	  mv $(BUILDDIR)/langdoc/kurento-java/kurento-jsonrpc/kurento-jsonrpc-client $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-client/* $(BUILDDIR)/langdoc/kurento-jsonrpc-client
-	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-client && mvn --settings /tmp/config4462908747586362544tmp clean package -DskipTests
+	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-client && mvn --settings /tmp/config4305473245228369675tmp clean package -DskipTests
 	  
 	  javadoc $(DOCLINT) -windowtitle "Kurento Repository Internal Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/internal \
@@ -116,7 +116,7 @@ langdoc:
 	  rm -rf $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  mv $(BUILDDIR)/langdoc/kurento-java/kurento-jsonrpc/kurento-jsonrpc-server $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-server/* $(BUILDDIR)/langdoc/kurento-jsonrpc-server
-	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-server && mvn --settings /tmp/config4462908747586362544tmp clean package -DskipTests
+	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-server && mvn --settings /tmp/config4305473245228369675tmp clean package -DskipTests
 	  
 	  javadoc $(DOCLINT) -windowtitle "Kurento Repository Server Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/server \
