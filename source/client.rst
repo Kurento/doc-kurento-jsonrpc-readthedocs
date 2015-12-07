@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%
-JSON-RPC CLIENT
+Json-Rpc Client
 %%%%%%%%%%%%%%%
 
 This is the Java client of the kurento-jsonrpc-server, or any other websocket server that implements the :term:`JSON-RPC` protocol. It allows a Java program to make 

@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%
-JSON-RPC CLIENT JS
+Json-Rpc Client JS
 %%%%%%%%%%%%%%%%%%
 
 This is the Javascript client of the kurento-jsonrpc-server, or any other websocket server that implements the :term:`JSON-RPC` protocol.

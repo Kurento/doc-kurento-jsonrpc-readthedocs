@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%
-JSON-RPC SERVER
+Json-Rpc Server
 %%%%%%%%%%%%%%%
 
 This is a :term:`JAVA` implementation of a :term:`JSON-RPC` server. It supports v2.0 only, which implies that Notifications can be used. 
