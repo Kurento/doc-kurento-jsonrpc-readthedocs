@@ -16,6 +16,10 @@ or W3C relevant documents. Some of the terms are specific to :term:`kurento`.
 
         .. seealso:: :rfc:`2616`
 
+    JAVA
+        `Java <https://www.java.com/en/download/faq/whatis_java.xml>`__  is a general-purpose computer programming language that is concurrent, class-based, object-oriented,
+        and specifically designed to have as few implementation dependencies as possible
+
     JSON
         `JSON <http://json.org>`__ (JavaScript Object Notation) is a lightweight
         data-interchange format. It is designed to be easy to understand and
@@ -67,8 +71,25 @@ or W3C relevant documents. Some of the terms are specific to :term:`kurento`.
 
         .. seealso:: `Easy and beautiful documentation with Sphinx <http://www.ibm.com/developerworks/linux/library/os-sphinx-documentation/index.html?ca=dat>`_
 
+    Spring Boot
+        `Spring Boot <http://projects.spring.io/spring-boot/>`__ is Spring's convention-over-configuration solution for creating stand-alone, production-grade Spring based Applications that you can "just run".[17] It takes an opinionated view of the Spring platform and third-party libraries so you can get started with minimum fuss
+
+
+    TCP
+        A reliable IP transport protocol. :wikipedia:`TCP <en, Transmission_Control_Protocol>` communication ensures that no packets are lost in transit. As such, 
+        it is most useful in low-bandwidth or unreliable environments. Examples are slow WANs or packet radio networks.
+
+    UUID
+        Universally Unique IDentifier, also known as Globally Unique Identifier (GUID). In the context of the distributed computing environment, unique means Practically unique. It is not guaranteed to be unique because the identifiers have a finite size (16-octet number).
+
     WebSocket
     WebSockets
+        `WebSocket <https://www.websocket.org/>`__ specification (developed as
+        part of the HTML5 initiative) defines a full-duplex single socket
+        connection over which messages can be sent between client and server.
+
+    WSS
+    WebSockets Secure
         `WebSocket <https://www.websocket.org/>`__ specification (developed as
         part of the HTML5 initiative) defines a full-duplex single socket
         connection over which messages can be sent between client and server.

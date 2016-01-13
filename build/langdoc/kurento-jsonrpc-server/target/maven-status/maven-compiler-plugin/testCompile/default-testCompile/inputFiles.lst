@@ -1,4 +1,1 @@
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/test/java/org/kurento/jsonrpc/test/SessionIdMessageTest.java
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/test/java/org/kurento/jsonrpc/test/PingWatchdogManagerTest.java
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/test/java/org/kurento/jsonrpc/test/GenericMessageTest.java
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/test/java/org/kurento/jsonrpc/test/JsonRpcHandlerTypesTest.java
+/opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-server/src/test/java/org/kurento/jsonrpc/test/PingWatchdogManagerTest.java

@@ -1,10 +1,1 @@
-org/kurento/jsonrpc/test/GenericMessageTest$Params.class
-org/kurento/jsonrpc/test/GenericMessageTest$Data.class
-org/kurento/jsonrpc/test/SessionIdMessageTest.class
-org/kurento/jsonrpc/test/JsonRpcHandlerTypesTest$JsonRpcHandlerDefault.class
-org/kurento/jsonrpc/test/JsonRpcHandlerTypesTest$Params.class
-org/kurento/jsonrpc/test/GenericMessageTest.class
-org/kurento/jsonrpc/test/SessionIdMessageTest$Data.class
-org/kurento/jsonrpc/test/JsonRpcHandlerTypesTest.class
-org/kurento/jsonrpc/test/SessionIdMessageTest$Params.class
 org/kurento/jsonrpc/test/PingWatchdogManagerTest.class

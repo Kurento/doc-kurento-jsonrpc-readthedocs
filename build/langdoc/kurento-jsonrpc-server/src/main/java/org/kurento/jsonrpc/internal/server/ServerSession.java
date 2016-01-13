@@ -12,6 +12,7 @@
  * Lesser General Public License for more details.
  *
  */
+
 package org.kurento.jsonrpc.internal.server;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ScheduledFuture;
 
+import org.kurento.commons.PropertiesManager;
 import org.kurento.jsonrpc.client.Continuation;
 import org.kurento.jsonrpc.internal.JsonRpcRequestSenderHelper;
 import org.kurento.jsonrpc.internal.client.AbstractSession;
@@ -31,145 +33,140 @@ import com.google.gson.JsonObject;
 
 public abstract class ServerSession extends AbstractSession {
 
-	private final SessionsManager sessionsManager;
-	private JsonRpcRequestSenderHelper rsHelper;
-	private String transportId;
-	private ScheduledFuture<?> closeTimerTask;
-	
-	private volatile ConcurrentMap<String, Object> attributes;
+  public static final String SESSION_RECONNECTION_TIME_PROP = "ws.sessionReconnectionTime";
+  private static final int SESSION_RECONNECTION_TIME_DEFAULT = 10;
 
-	// TODO Make this configurable
-	private long reconnectionTimeoutInMillis = 10000;
+  private final SessionsManager sessionsManager;
+  private JsonRpcRequestSenderHelper rsHelper;
+  private String transportId;
+  private ScheduledFuture<?> closeTimerTask;
 
-	public ServerSession(String sessionId, Object registerInfo,
-			SessionsManager sessionsManager, String transportId) {
+  private volatile ConcurrentMap<String, Object> attributes;
 
-		super(sessionId, registerInfo);
+  private long reconnectionTimeoutInMillis = PropertiesManager
+      .getProperty(SESSION_RECONNECTION_TIME_PROP, SESSION_RECONNECTION_TIME_DEFAULT) * 1000;
 
-		this.transportId = transportId;
-		this.sessionsManager = sessionsManager;
-	}
+  public ServerSession(String sessionId, Object registerInfo, SessionsManager sessionsManager,
+      String transportId) {
 
-	public abstract void handleResponse(Response<JsonElement> response);
+    super(sessionId, registerInfo);
 
-	public String getTransportId() {
-		return transportId;
-	}
+    this.transportId = transportId;
+    this.sessionsManager = sessionsManager;
+  }
 
-	public void setTransportId(String transportId) {
-		this.transportId = transportId;
-	}
+  public abstract void handleResponse(Response<JsonElement> response);
 
-	@Override
-	public void close() throws IOException {
-		this.sessionsManager.remove(this.getSessionId());
-	}
+  public String getTransportId() {
+    return transportId;
+  }
 
-	protected void setRsHelper(JsonRpcRequestSenderHelper rsHelper) {
-		this.rsHelper = rsHelper;
-	}
+  public void setTransportId(String transportId) {
+    this.transportId = transportId;
+  }
 
-	@Override
-	public <R> R sendRequest(String method, Class<R> resultClass)
-			throws IOException {
-		return rsHelper.sendRequest(method, resultClass);
-	}
+  @Override
+  public void close() throws IOException {
+    this.sessionsManager.remove(this.getSessionId());
+  }
 
-	@Override
-	public <R> R sendRequest(String method, Object params, Class<R> resultClass)
-			throws IOException {
-		return rsHelper.sendRequest(method, params, resultClass);
-	}
+  protected void setRsHelper(JsonRpcRequestSenderHelper rsHelper) {
+    this.rsHelper = rsHelper;
+  }
 
-	@Override
-	public JsonElement sendRequest(String method) throws IOException {
-		return rsHelper.sendRequest(method);
-	}
+  @Override
+  public <R> R sendRequest(String method, Class<R> resultClass) throws IOException {
+    return rsHelper.sendRequest(method, resultClass);
+  }
 
-	@Override
-	public JsonElement sendRequest(String method, Object params)
-			throws IOException {
-		return rsHelper.sendRequest(method, params);
-	}
+  @Override
+  public <R> R sendRequest(String method, Object params, Class<R> resultClass) throws IOException {
+    return rsHelper.sendRequest(method, params, resultClass);
+  }
 
-	@Override
-	public void sendRequest(String method, JsonObject params,
-			Continuation<JsonElement> continuation) {
-		rsHelper.sendRequest(method, params, continuation);
-	}
+  @Override
+  public JsonElement sendRequest(String method) throws IOException {
+    return rsHelper.sendRequest(method);
+  }
 
-	@Override
-	public void sendNotification(String method, Object params,
-			Continuation<JsonElement> continuation) throws IOException {
-		rsHelper.sendNotification(method, params, continuation);
-	}
+  @Override
+  public JsonElement sendRequest(String method, Object params) throws IOException {
+    return rsHelper.sendRequest(method, params);
+  }
 
-	@Override
-	public void sendNotification(String method, Object params)
-			throws IOException {
-		rsHelper.sendNotification(method, params);
-	}
+  @Override
+  public void sendRequest(String method, JsonObject params,
+      Continuation<JsonElement> continuation) {
+    rsHelper.sendRequest(method, params, continuation);
+  }
 
-	@Override
-	public void sendNotification(String method) throws IOException {
-		rsHelper.sendNotification(method);
-	}
+  @Override
+  public void sendNotification(String method, Object params, Continuation<JsonElement> continuation)
+      throws IOException {
+    rsHelper.sendNotification(method, params, continuation);
+  }
 
-	@Override
-	public Response<JsonElement> sendRequest(Request<JsonObject> request)
-			throws IOException {
-		return rsHelper.sendRequest(request);
-	}
+  @Override
+  public void sendNotification(String method, Object params) throws IOException {
+    rsHelper.sendNotification(method, params);
+  }
 
-	@Override
-	public void sendRequest(Request<JsonObject> request,
-			Continuation<Response<JsonElement>> continuation)
-					throws IOException {
-		rsHelper.sendRequest(request, continuation);
-	}
-	
-	@Override
-	public void sendRequestHonorId(Request<JsonObject> request,
-			Continuation<Response<JsonElement>> continuation)
-					throws IOException {
-		rsHelper.sendRequestHonorId(request, continuation);
-	}
-	
-	@Override
-	public Response<JsonElement> sendRequestHonorId(Request<JsonObject> request)
-			throws IOException {
-		return rsHelper.sendRequestHonorId(request);
-	}
+  @Override
+  public void sendNotification(String method) throws IOException {
+    rsHelper.sendNotification(method);
+  }
 
-	public void setCloseTimerTask(ScheduledFuture<?> closeTimerTask) {
-		this.closeTimerTask = closeTimerTask;
-	}
+  @Override
+  public Response<JsonElement> sendRequest(Request<JsonObject> request) throws IOException {
+    return rsHelper.sendRequest(request);
+  }
 
-	public ScheduledFuture<?> getCloseTimerTask() {
-		return closeTimerTask;
-	}
+  @Override
+  public void sendRequest(Request<JsonObject> request,
+      Continuation<Response<JsonElement>> continuation) throws IOException {
+    rsHelper.sendRequest(request, continuation);
+  }
 
-	@Override
-	public void setReconnectionTimeout(long reconnectionTimeoutInMillis) {
-		this.reconnectionTimeoutInMillis = reconnectionTimeoutInMillis;
-	}
+  @Override
+  public void sendRequestHonorId(Request<JsonObject> request,
+      Continuation<Response<JsonElement>> continuation) throws IOException {
+    rsHelper.sendRequestHonorId(request, continuation);
+  }
 
-	public long getReconnectionTimeoutInMillis() {
-		return reconnectionTimeoutInMillis;
-	}
+  @Override
+  public Response<JsonElement> sendRequestHonorId(Request<JsonObject> request) throws IOException {
+    return rsHelper.sendRequestHonorId(request);
+  }
 
-	@Override
-	public Map<String, Object> getAttributes() {
-		if (attributes == null) {
-			synchronized (this) {
-				if (attributes == null) {
-					attributes = new ConcurrentHashMap<>();
-				}
-			}
-		}
+  public void setCloseTimerTask(ScheduledFuture<?> closeTimerTask) {
+    this.closeTimerTask = closeTimerTask;
+  }
 
-		return attributes;
-	}
-	
-	public abstract void closeNativeSession(String reason);
+  public ScheduledFuture<?> getCloseTimerTask() {
+    return closeTimerTask;
+  }
+
+  @Override
+  public void setReconnectionTimeout(long reconnectionTimeoutInMillis) {
+    this.reconnectionTimeoutInMillis = reconnectionTimeoutInMillis;
+  }
+
+  public long getReconnectionTimeoutInMillis() {
+    return reconnectionTimeoutInMillis;
+  }
+
+  @Override
+  public Map<String, Object> getAttributes() {
+    if (attributes == null) {
+      synchronized (this) {
+        if (attributes == null) {
+          attributes = new ConcurrentHashMap<>();
+        }
+      }
+    }
+
+    return attributes;
+  }
+
+  public abstract void closeNativeSession(String reason);
 }

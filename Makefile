@@ -5,11 +5,11 @@
 # IMPORTANT: Notice that DOC_VERSION should be the same as variable "release" in conf.py,
 # so when this variable is updated, it should be also updated in conf.py
 
-DOC_VERSION = 6.1.1-SNAPSHOT
-KMS_VERSION = 6.1.2
-CLIENT_JAVA_VERSION = 6.1.1-SNAPSHOT
-CLIENT_JS_VERSION = 6.1.0
-UTILS_JS_VERSION = 6.1.0
+DOC_VERSION = 6.2.1-SNAPSHOT
+KMS_VERSION = 6.2.0
+KURENTO_JAVA_VERSION = 6.2.2-SNAPSHOT
+SPRING_BOOT_VERSION = 1.3.0.RELEASE
+SPRING_VERSION = 4.2.3.RELEASE
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
@@ -62,7 +62,7 @@ clean:
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	find $(BUILDDIR)/html -name "*.html" -exec sed -i -e "s@|DOC_VERSION|@$(DOC_VERSION)@" {} \;
-	find $(BUILDDIR)/html -name "*.html" -exec sed -i -e "s@|CLIENT_JAVA_VERSION|@$(CLIENT_JAVA_VERSION)@" {} \;
+	find $(BUILDDIR)/html -name "*.html" -exec sed -i -e "s@|KURENTO_JAVA_VERSION|@$(KURENTO_JAVA_VERSION)@" {} \;
 	./fixlinks.sh
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
@@ -102,12 +102,12 @@ langdoc:
 	  
 	  # kurento-jsonrpc-client javadoc
 	  rm -rf $(BUILDDIR)/langdoc/kurento-jsonrpc-client
-	  cd  $(BUILDDIR)/langdoc && git clone https://github.com/Kurento/kurento-java.git && cd kurento-java && git checkout kurento-java-$(CLIENT_JAVA_VERSION) || git checkout $(CLIENT_JAVA_VERSION) || echo "Using master branch"
+	  cd  $(BUILDDIR)/langdoc && git clone https://github.com/Kurento/kurento-java.git && cd kurento-java && git checkout kurento-java-$(KURENTO_JAVA_VERSION) || git checkout $(KURENTO_JAVA_VERSION) || echo "Using master branch"
 	  mv $(BUILDDIR)/langdoc/kurento-java/kurento-jsonrpc/kurento-jsonrpc-client $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-client/* $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-client && mvn clean package -DskipTests
 	  
-	  javadoc $(DOCLINT) -windowtitle "Kurento Repository Internal Javadoc" \
+	  javadoc $(DOCLINT) -windowtitle "Kurento JSON-RPC Client Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/internal \
 	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-client/src/main/java/ \
 	    -subpackages org.kurento.jsonrpc
@@ -118,7 +118,7 @@ langdoc:
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-server/* $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-server && mvn clean package -DskipTests
 	  
-	  javadoc $(DOCLINT) -windowtitle "Kurento Repository Server Javadoc" \
+	  javadoc $(DOCLINT) -windowtitle "Kurento JSON-RPC Server Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/server \
 	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-server/src/main/java/ \
 	    -subpackages org.kurento.jsonrpc
@@ -144,9 +144,7 @@ devhelp:
 epub:
 	$(SPHINXBUILD) -b epub $(ALLSPHINXOPTS) $(BUILDDIR)/epub
 	find $(BUILDDIR)/epub -name "*.html" -exec sed -i -e "s@|DOC_VERSION|@$(DOC_VERSION)@" {} \;
-	find $(BUILDDIR)/epub -name "*.html" -exec sed -i -e "s@|CLIENT_JAVA_VERSION|@$(CLIENT_JAVA_VERSION)@" {} \;
-	find $(BUILDDIR)/epub -name "*.html" -exec sed -i -e "s@|CLIENT_JS_VERSION|@$(CLIENT_JS_VERSION)@" {} \;
-	find $(BUILDDIR)/epub -name "*.html" -exec sed -i -e "s@|UTILS_JS_VERSION|@$(UTILS_JS_VERSION)@" {} \;
+	find $(BUILDDIR)/html -name "*.html" -exec sed -i -e "s@|KURENTO_JAVA_VERSION|@$(KURENTO_JAVA_VERSION)@" {} \;
 	$(SPHINXBUILD) -b epub $(ALLSPHINXOPTS) $(BUILDDIR)/epub
 	@echo
 	@echo "Build finished. The epub file is in $(BUILDDIR)/epub."
@@ -162,9 +160,6 @@ latexpdf:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
 	@echo "Running LaTeX files through pdflatex..."
 	find $(BUILDDIR)/latex -name "*.tex" -exec sed -i -e "s@.textbar..DOC_VERSION.textbar..@$(DOC_VERSION)@" {} \;
-	find $(BUILDDIR)/latex -name "*.tex" -exec sed -i -e "s@.textbar..CLIENT_JAVA_VERSION.textbar..@$(CLIENT_JAVA_VERSION)@" {} \;
-	find $(BUILDDIR)/latex -name "*.tex" -exec sed -i -e "s@.textbar..CLIENT_JS_VERSION.textbar..@$(CLIENT_JS_VERSION)@" {} \;
-	find $(BUILDDIR)/latex -name "*.tex" -exec sed -i -e "s@.textbar..UTILS_JS_VERSION.textbar..@$(UTILS_JS_VERSION)@" {} \;
 	$(MAKE) -C $(BUILDDIR)/latex all-pdf
 	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
 
@@ -222,10 +217,6 @@ dist: clean langdoc html epub latexpdf
 	
 readthedocs: clean langdoc
 	find ./source -name "*.html" -exec sed -i -e "s@|DOC_VERSION|@$(DOC_VERSION)@" {} \;
-	find ./source -name "*.rst" -exec sed -i -e "s@|DOC_VERSION|@$(DOC_VERSION)@" {} \;
-	find ./source -name "*.rst" -exec sed -i -e "s@|KMS_VERSION|@$(KMS_VERSION)@" {} \;
-	find ./source -name "*.rst" -exec sed -i -e "s@|CLIENT_JAVA_VERSION|@$(CLIENT_JAVA_VERSION)@" {} \;
-	find ./source -name "*.rst" -exec sed -i -e "s@|CLIENT_JS_VERSION|@$(CLIENT_JS_VERSION)@" {} \;
-	find ./source -name "*.rst" -exec sed -i -e "s@|UTILS_JS_VERSION|@$(UTILS_JS_VERSION)@" {} \;
+	find ./source -name "*.rst" -exec sed -i -e "s@|KURENTO_JAVA_VERSION|@$(KURENTO_JAVA_VERSION)@" {} \;
 	find ./source -name "*.rst" -exec sed -i "s/langdoc/_static\/langdoc/g" {} \;
 	cp -r $(BUILDDIR)/html/langdoc ./source/themes/sphinx_rtd_theme/static

@@ -1,4 +1,4 @@
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/JsonRpcHandlerTypesTest.java
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/GenericMessageTest.java
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/SessionIdMessageTest.java
-/var/lib/jenkins/workspace/Development/kurento_jsonrpc_doc_readthedocs_merged/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/JsonRpcClientLocalTest.java
+/opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/JsonRpcClientLocalTest.java
+/opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/GenericMessageTest.java
+/opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/JsonRpcHandlerTypesTest.java
+/opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/test/java/org/kurento/jsonrpc/test/SessionIdMessageTest.java

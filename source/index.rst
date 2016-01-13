@@ -17,6 +17,7 @@ Table of Contents
    server.rst
    client.rst
    client-js.rst
+   securing.rst
    glossary.rst
 
 * :ref:`genindex`
