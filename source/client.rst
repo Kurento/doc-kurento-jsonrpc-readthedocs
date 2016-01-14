@@ -136,4 +136,4 @@ Not only the ping message interval is configurable. Other configurable timeouts 
 JavaDoc
 -------
 
-* `kurento-jsonrpc-client <./_static/langdoc/kurento-jsonrpc-client/index.html>`_
+* `kurento-jsonrpc-client <./_static/langdoc/javadoc/client/index.html>`_

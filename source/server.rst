@@ -192,4 +192,4 @@ shows how a notification to a particular client would be sent
 JavaDoc
 -------
 
-* `kurento-jsonrpc-server <./_static/langdoc/kurento-jsonrpc-server/index.html>`_
+* `kurento-jsonrpc-server <./_static/langdoc/javadoc/server/index.html>`_

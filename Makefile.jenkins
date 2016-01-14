@@ -97,7 +97,7 @@ langdoc:
 	  @echo "Doclint arg for javadoc (if java version >= 1.8): $(DOCLINT)"
 	  
 	  mkdir -p $(BUILDDIR)/langdoc
-	  rm -rf $(BUILDDIR)/html/langdoc/javadoc
+	  rm -rf $(BUILDDIR)/html/langdoc/kurento-java && rm -rf $(BUILDDIR)/html/langdoc/javadoc
 	  mkdir -p $(BUILDDIR)/html/langdoc/javadoc
 	  
 	  # kurento-jsonrpc-client javadoc
