@@ -175,7 +175,7 @@ to store the *Session* object of each client upon connection. This can be achiev
    }
 
 How a session is paired with each client is something that depends on the business logic of the appllication. In this case, we are assuming that the
-session holds a *clientId* property, that can be sued to uniquely identify each client. It is also possible to use the *sessionId*,
+session holds a *clientId* property, that can be used to uniquely identify each client. It is also possible to use the *sessionId*,
 a :term:UUID provided by the library as session identifier, but they are not meaningful for the application using the library. It is advisable to not leave sessions registered once clients disconnect, so we are overriding the *afterConnectionClosed* method and removing the stored *session* object there.
 
 Notifications are sent to connected clients through their stablished session. Again, how to map sessions to clients in particular is out of the scope of
