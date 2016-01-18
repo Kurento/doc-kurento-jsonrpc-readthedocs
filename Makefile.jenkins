@@ -5,7 +5,7 @@
 # IMPORTANT: Notice that DOC_VERSION should be the same as variable "release" in conf.py,
 # so when this variable is updated, it should be also updated in conf.py
 
-DOC_VERSION = 6.2.1-SNAPSHOT
+DOC_VERSION = 6.2.1-dev
 KMS_VERSION = 6.2.0
 KURENTO_JAVA_VERSION = 6.2.2-SNAPSHOT
 SPRING_BOOT_VERSION = 1.3.0.RELEASE
@@ -95,29 +95,29 @@ htmlhelp:
 
 langdoc:
 	  @echo "Doclint arg for javadoc (if java version >= 1.8): $(DOCLINT)"
-	  
+
 	  mkdir -p $(BUILDDIR)/langdoc
 	  rm -rf $(BUILDDIR)/html/langdoc/kurento-java && rm -rf $(BUILDDIR)/html/langdoc/javadoc
 	  mkdir -p $(BUILDDIR)/html/langdoc/javadoc
-	  
+
 	  # kurento-jsonrpc-client javadoc
 	  rm -rf $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  cd  $(BUILDDIR)/langdoc && git clone https://github.com/Kurento/kurento-java.git && cd kurento-java && git checkout kurento-java-$(KURENTO_JAVA_VERSION) || git checkout $(KURENTO_JAVA_VERSION) || echo "Using master branch"
 	  mv $(BUILDDIR)/langdoc/kurento-java/kurento-jsonrpc/kurento-jsonrpc-client $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-client/* $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-client && mvn --batch-mode --settings /opt/kurento-settings.xml clean package -DskipTests
-	  
+
 	  javadoc $(DOCLINT) -windowtitle "Kurento JSON-RPC Client Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/internal \
 	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-client/src/main/java/ \
 	    -subpackages org.kurento.jsonrpc
-	  
+
 	  # kurento-jsonrpc-server javadoc
 	  rm -rf $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  mv $(BUILDDIR)/langdoc/kurento-java/kurento-jsonrpc/kurento-jsonrpc-server $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-server/* $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-server && mvn --batch-mode --settings /opt/kurento-settings.xml clean package -DskipTests
-	  
+
 	  javadoc $(DOCLINT) -windowtitle "Kurento JSON-RPC Server Javadoc" \
 	    -d $(BUILDDIR)/html/langdoc/javadoc/server \
 	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-server/src/main/java/ \
@@ -214,7 +214,7 @@ dist: clean langdoc html epub latexpdf
 	@echo
 	cp $(BUILDDIR)/epub/KurentoJsonRpc.epub $(BUILDDIR)/latex/KurentoJsonRpc.pdf $(BUILDDIR)/html &&\
 	tar zcvf $(BUILDDIR)/dist/docs-kurento-jsonrpc-$(DOC_VERSION).tgz -C $(BUILDDIR)/html .
-	
+
 readthedocs: clean langdoc
 	find ./source -name "*.html" -exec sed -i -e "s@|DOC_VERSION|@$(DOC_VERSION)@" {} \;
 	find ./source -name "*.rst" -exec sed -i -e "s@|KURENTO_JAVA_VERSION|@$(KURENTO_JAVA_VERSION)@" {} \;
