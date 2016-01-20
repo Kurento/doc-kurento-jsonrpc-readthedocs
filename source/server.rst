@@ -11,7 +11,7 @@ allowing developers to easily manage it as a dependency, by including the follow
    <dependency>
        <groupId>org.kurento</groupId>
        <artifactId>kurento-jsonrpc-server</artifactId>
-       <version>6.2.2-SNAPSHOT</version>
+       <version>6.2.1</version>
    </dependency>
          
 The server is based on :term:`Spring Boot` |SPRING_BOOT_VERSION|. The usage is very simple, and analogous to the creation and configuration of a WebSocketHandler from Spring. 

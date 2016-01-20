@@ -10,7 +10,6 @@ org/kurento/jsonrpc/JsonRpcErrorException.class
 org/kurento/jsonrpc/message/ResponseError.class
 org/kurento/jsonrpc/Props$1.class
 org/kurento/jsonrpc/client/JsonRpcClientWebSocket$4.class
-org/kurento/jsonrpc/internal/client/AbstractTransaction.class
 org/kurento/jsonrpc/client/JsonRpcClientHttp$3.class
 org/kurento/jsonrpc/message/Response.class
 org/kurento/jsonrpc/client/JsonRpcClientHttp$2.class

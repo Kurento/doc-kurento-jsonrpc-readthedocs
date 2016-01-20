@@ -15,7 +15,6 @@
 /opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/main/java/org/kurento/jsonrpc/client/JsonRpcClientLocal.java
 /opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/main/java/org/kurento/jsonrpc/JsonUtils.java
 /opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/main/java/org/kurento/jsonrpc/message/MessageUtils.java
-/opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/main/java/org/kurento/jsonrpc/internal/client/AbstractTransaction.java
 /opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/main/java/org/kurento/jsonrpc/message/Response.java
 /opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/main/java/org/kurento/jsonrpc/Props.java
 /opt/kurento/doc-kurento-jsonrpc/build/langdoc/kurento-jsonrpc-client/src/main/java/org/kurento/jsonrpc/JsonRpcErrorException.java

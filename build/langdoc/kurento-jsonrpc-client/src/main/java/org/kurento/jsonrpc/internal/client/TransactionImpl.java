@@ -21,12 +21,14 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.kurento.jsonrpc.Session;
+import org.kurento.jsonrpc.Transaction;
 import org.kurento.jsonrpc.client.RequestAlreadyRespondedException;
 import org.kurento.jsonrpc.message.Message;
 import org.kurento.jsonrpc.message.Request;
 import org.kurento.jsonrpc.message.Response;
+import org.kurento.jsonrpc.message.ResponseError;
 
-public class TransactionImpl extends AbstractTransaction {
+public class TransactionImpl implements Transaction {
 
   public interface ResponseSender {
     void sendResponse(Message message) throws IOException;
@@ -34,19 +36,68 @@ public class TransactionImpl extends AbstractTransaction {
     void sendPingResponse(Message message) throws IOException;
   }
 
+  private final Session session;
+  private boolean async;
   private final AtomicBoolean responded = new AtomicBoolean(false);
   private final ResponseSender responseSender;
+  private final Request<?> request;
 
   public TransactionImpl(Session session, Request<?> request, ResponseSender responseSender) {
-    super(session, request);
+    super();
+    this.session = session;
     this.responseSender = responseSender;
+    this.request = request;
+  }
+
+  @Override
+  public void sendResponse(Object result) throws IOException {
+    internalSendResponse(new Response<>(request.getId(), result));
+  }
+
+  @Override
+  public Session getSession() {
+    return session;
+  }
+
+  @Override
+  public void startAsync() {
+    async = true;
+  }
+
+  public boolean isAsync() {
+    return async;
   }
 
   public boolean setRespondedIfNot() {
     return responded.compareAndSet(false, true);
   }
 
-  protected void internalSendResponse(Response<? extends Object> response) throws IOException {
+  @Override
+  public void sendError(int code, String message, String data) throws IOException {
+
+    internalSendResponse(new Response<>(request.getId(), new ResponseError(code, message, data)));
+  }
+
+  @Override
+  public void sendError(Throwable e) throws IOException {
+
+    ResponseError error = ResponseError.newFromException(e);
+    internalSendResponse(new Response<>(request.getId(), error));
+
+  }
+
+  @Override
+  public boolean isNotification() {
+    return request.getId() == null;
+  }
+
+  @Override
+  public void sendResponseObject(Response<? extends Object> response) throws IOException {
+
+    internalSendResponse(response);
+  }
+
+  private void internalSendResponse(Response<? extends Object> response) throws IOException {
 
     boolean notResponded = setRespondedIfNot();
 
@@ -67,4 +118,13 @@ public class TransactionImpl extends AbstractTransaction {
     }
   }
 
+  @Override
+  public void sendVoidResponse() throws IOException {
+    sendResponse(null);
+  }
+
+  @Override
+  public void sendError(ResponseError error) throws IOException {
+    internalSendResponse(new Response<>(request.getId(), error));
+  }
 }
