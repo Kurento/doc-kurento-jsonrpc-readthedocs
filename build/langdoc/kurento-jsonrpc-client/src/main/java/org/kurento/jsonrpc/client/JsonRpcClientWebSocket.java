@@ -17,8 +17,8 @@ package org.kurento.jsonrpc.client;
 import static org.kurento.jsonrpc.JsonUtils.fromJson;
 import static org.kurento.jsonrpc.JsonUtils.fromJsonRequest;
 import static org.kurento.jsonrpc.JsonUtils.fromJsonResponse;
+import static org.kurento.jsonrpc.internal.JsonRpcConstants.METHOD_CONNECT;
 import static org.kurento.jsonrpc.internal.JsonRpcConstants.METHOD_PING;
-import static org.kurento.jsonrpc.internal.JsonRpcConstants.METHOD_RECONNECT;
 
 import java.io.IOException;
 import java.net.URI;
@@ -69,15 +69,15 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
 
   private static final int MAX_PACKET_SIZE = 1000000;
 
-  private static final ThreadFactory threadFactory =
-      new ThreadFactoryBuilder().setNameFormat("JsonRpcClientWebsocket-%d").build();
+  private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
+      .setNameFormat("JsonRpcClientWebsocket-%d").build();
 
   @WebSocket
   public class WebSocketClientSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String closeReason) {
-      log.debug("Websocket disconnected by {} (status code {})", closeReason, statusCode);
+      log.debug("Websocket disconnected because '{}' (status code {})", closeReason, statusCode);
       handleReconnectDisconnection(statusCode, closeReason);
     }
 
@@ -118,15 +118,15 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
 
   public static Logger log = LoggerFactory.getLogger(JsonRpcClientWebSocket.class);
 
-  public long requestTimeout =
-      PropertiesManager.getProperty("jsonRpcClientWebSocket.timeout", 60000);
+  public long requestTimeout = PropertiesManager.getProperty("jsonRpcClientWebSocket.timeout",
+      60000);
 
   private final CountDownLatch latch = new CountDownLatch(1);
 
   private volatile ExecutorService execService;
   private volatile ExecutorService disconnectExecService;
 
-  private final String url;
+  protected String url;
   private volatile Session wsSession;
   private final PendingRequests pendingRequests = new PendingRequests();
   private ResponseSender rs;
@@ -143,9 +143,6 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
   private boolean sendCloseMessage;
 
   private boolean concurrentServerRequest = true;
-
-  private long keepAliveTime =
-      PropertiesManager.getProperty("jsonRpcClientWebSocket.keepAliveTime", 0);
 
   public JsonRpcClientWebSocket(String url) {
     this(url, null, null);
@@ -318,7 +315,7 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
           } else {
 
             try {
-              rsHelper.sendRequest(METHOD_RECONNECT, String.class);
+              rsHelper.sendRequest(METHOD_CONNECT, String.class);
 
               log.info("{} Reconnected to the same session in server {}", label, url);
 
@@ -329,7 +326,7 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
                 // exception
 
                 rsHelper.setSessionId(null);
-                rsHelper.sendRequest(METHOD_RECONNECT, String.class);
+                rsHelper.sendRequest(METHOD_CONNECT, String.class);
 
                 pendingRequests.closeAllPendingRequests();
 
@@ -411,6 +408,13 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
         @Override
         public void run() {
           try {
+
+            log.debug("{}JsonRpcWsClient reconnecting to {}", label, url);
+
+            if (connectionListener != null) {
+              connectionListener.reconnecting();
+            }
+
             connectIfNecessary();
 
             reconnecting = false;
@@ -468,8 +472,6 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
   private void handleRequestFromServer(final JsonObject message) {
 
     if (concurrentServerRequest) {
-
-      log.debug("Submitting event to a execution service...");
 
       createExecServiceIfNecessary();
 
@@ -571,8 +573,8 @@ public class JsonRpcClientWebSocket extends JsonRpcClient {
             }
 
             try {
-              Response<JsonElement> response =
-                  MessageUtils.convertResponse(responseJson, resultClass);
+              Response<JsonElement> response = MessageUtils.convertResponse(responseJson,
+                  resultClass);
 
               if (response.getSessionId() != null) {
                 session.setSessionId(response.getSessionId());

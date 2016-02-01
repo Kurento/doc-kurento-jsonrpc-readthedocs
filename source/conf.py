@@ -93,7 +93,7 @@ html_theme = 'sphinx_rtd_theme'
 # Read the docs theme
 # html_theme = 'default'
 # on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-# if not on_rtd:  
+# if not on_rtd:
 #     import sphinx_rtd_theme
 #     html_theme = 'sphinx_rtd_theme'
 #     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
@@ -310,6 +310,6 @@ todo_include_todos = 'dev'
 # linkcheck, jboss forbids us
 linkcheck_ignore = [r'http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm']
 
-rst_epilog = """ 
+rst_epilog = """
 .. |SPRING_BOOT_VERSION| replace:: 1.3.0.RELEASE
 """
