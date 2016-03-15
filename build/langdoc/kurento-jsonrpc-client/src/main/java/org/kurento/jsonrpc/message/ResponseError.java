@@ -117,6 +117,15 @@ public class ResponseError {
     this.type = getErrorType(data);
   }
 
+  public ResponseError(int code, String type, String message, String data) {
+    this.code = Integer.valueOf(code);
+    this.message = message;
+    if (data != null) {
+      this.data = new JsonPrimitive(data);
+    }
+    this.type = type;
+  }
+
   public ResponseError(int code, String message) {
     this.code = Integer.valueOf(code);
     this.message = message;
@@ -190,7 +199,7 @@ public class ResponseError {
   }
 
   public String getCompleteMessage() {
-    return message + " (Code:" + code + ", Type:" + type + ")";
+    return message + " (Code:" + code + ", Type:" + type + ", Data: " + data + ")";
   }
 
   private static String getErrorType(JsonElement data) {
