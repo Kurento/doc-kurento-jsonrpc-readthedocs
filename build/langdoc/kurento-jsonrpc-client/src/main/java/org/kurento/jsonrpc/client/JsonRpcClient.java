@@ -26,6 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
+import org.kurento.commons.ThreadFactoryCreator;
 import org.kurento.commons.exception.KurentoException;
 import org.kurento.jsonrpc.JsonRpcHandler;
 import org.kurento.jsonrpc.Session;
@@ -85,7 +86,7 @@ public abstract class JsonRpcClient implements JsonRpcRequestSender, Closeable {
   protected boolean closedByClient;
   private volatile PingParams pingParams;
 
-  private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+  private ScheduledExecutorService hearbeatExec = createScheduler();
 
   private Future<?> heartbeat;
 
@@ -249,11 +250,11 @@ public abstract class JsonRpcClient implements JsonRpcRequestSender, Closeable {
       this.heartbeating = true;
       this.heartbeatInterval = interval;
 
-      if (scheduler.isShutdown()) {
-        scheduler = Executors.newSingleThreadScheduledExecutor();
+      if (hearbeatExec.isShutdown()) {
+        hearbeatExec = createScheduler();
       }
 
-      heartbeat = scheduler.scheduleAtFixedRate(new Runnable() {
+      heartbeat = hearbeatExec.scheduleAtFixedRate(new Runnable() {
         @Override
         public void run() {
           try {
@@ -273,6 +274,11 @@ public abstract class JsonRpcClient implements JsonRpcRequestSender, Closeable {
     }
   }
 
+  private ScheduledExecutorService createScheduler() {
+    return Executors.newSingleThreadScheduledExecutor(
+        ThreadFactoryCreator.create("JsonRpcClient-hearbeatExec"));
+  }
+
   /**
    * Cancels the heartbeat task and closes the client
    */
@@ -281,7 +287,7 @@ public abstract class JsonRpcClient implements JsonRpcRequestSender, Closeable {
 
     heartbeat.cancel(false);
     heartbeat = null;
-    scheduler.shutdownNow();
+    hearbeatExec.shutdownNow();
 
     try {
       closeWithReconnection();
@@ -313,7 +319,7 @@ public abstract class JsonRpcClient implements JsonRpcRequestSender, Closeable {
         heartbeat.cancel(mayInterruptIfRunning);
         heartbeat = null;
       }
-      scheduler.shutdownNow();
+      hearbeatExec.shutdownNow();
     }
   }
 

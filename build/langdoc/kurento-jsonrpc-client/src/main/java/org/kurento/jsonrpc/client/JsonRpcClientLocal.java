@@ -16,6 +16,8 @@
 package org.kurento.jsonrpc.client;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.kurento.jsonrpc.JsonRpcHandler;
 import org.kurento.jsonrpc.JsonUtils;
@@ -77,27 +79,24 @@ public class JsonRpcClientLocal extends JsonRpcClient {
 
     final Response<JsonObject>[] response = new Response[1];
 
-    ClientSession clientSession = new ClientSession(session.getSessionId(), null, new JsonRpcRequestSenderHelper() {
+    ClientSession clientSession = new ClientSession(session.getSessionId(), null,
+        new JsonRpcRequestSenderHelper() {
 
       @Override
       protected void internalSendRequest(Request<? extends Object> request,
           Class<JsonElement> clazz, final Continuation<Response<JsonElement>> continuation) {
-        try {
-          handlerManager.handleRequest(session, (Request<JsonElement>) request,
-              new ResponseSender() {
-            @Override
-            public void sendResponse(Message message) throws IOException {
-              continuation.onSuccess((Response<JsonElement>) message);
-            }
+            handlerManager.handleRequest(session, (Request<JsonElement>) request,
+                new ResponseSender() {
+                  @Override
+                  public void sendResponse(Message message) throws IOException {
+                    continuation.onSuccess((Response<JsonElement>) message);
+                  }
 
-            @Override
-            public void sendPingResponse(Message message) throws IOException {
-              sendResponse(message);
-            }
-          });
-        } catch (IOException e) {
-          continuation.onError(e);
-        }
+                  @Override
+                  public void sendPingResponse(Message message) throws IOException {
+                    sendResponse(message);
+                  }
+                });
       }
 
       @Override
@@ -105,39 +104,44 @@ public class JsonRpcClientLocal extends JsonRpcClient {
           Class<R2> resultClass) throws IOException {
 
         final Object[] response = new Object[1];
-        try {
-          handlerManager.handleRequest(session, (Request<JsonElement>) request,
-              new ResponseSender() {
-            @Override
-            public void sendResponse(Message message) throws IOException {
-              response[0] = message;
+
+            final CountDownLatch responseLatch = new CountDownLatch(1);
+
+            handlerManager.handleRequest(session, (Request<JsonElement>) request,
+                new ResponseSender() {
+                  @Override
+                  public void sendResponse(Message message) throws IOException {
+                    response[0] = message;
+                    responseLatch.countDown();
+                  }
+
+                  @Override
+                  public void sendPingResponse(Message message) throws IOException {
+                    sendResponse(message);
+                  }
+                });
+
+            Response<R2> response2 = (Response<R2>) response[0];
+
+            try {
+              responseLatch.await(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+              throw new RuntimeException(e);
             }
 
-            @Override
-            public void sendPingResponse(Message message) throws IOException {
-              sendResponse(message);
+            log.debug("<-- {}", response2);
+
+            Object result = response2.getResult();
+
+            if (result == null || resultClass.isAssignableFrom(result.getClass())) {
+              return response2;
+            } else if (resultClass == JsonElement.class) {
+              response2.setResult((R2) JsonUtils.toJsonElement(result));
+              return response2;
+            } else {
+              throw new ClassCastException("Class " + result + " cannot be converted to "
+                  + resultClass);
             }
-          });
-
-          Response<R2> response2 = (Response<R2>) response[0];
-
-          log.debug("<-- {}", response2);
-
-          Object result = response2.getResult();
-
-          if (result == null || resultClass.isAssignableFrom(result.getClass())) {
-            return response2;
-          } else if (resultClass == JsonElement.class) {
-            response2.setResult((R2) JsonUtils.toJsonElement(result));
-            return response2;
-          } else {
-            throw new ClassCastException(
-                "Class " + result + " cannot be converted to " + resultClass);
-          }
-
-        } catch (IOException e) {
-          return new Response<R2>(request.getId(), ResponseError.newFromException(e));
-        }
       }
     });
 

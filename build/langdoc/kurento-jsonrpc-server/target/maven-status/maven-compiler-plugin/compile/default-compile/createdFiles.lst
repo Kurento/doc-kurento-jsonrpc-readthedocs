@@ -4,6 +4,7 @@ org/kurento/jsonrpc/internal/http/JsonRpcHttpRequestHandler$1.class
 org/kurento/jsonrpc/internal/ws/WebSocketServerSession.class
 org/kurento/jsonrpc/internal/server/config/JsonRpcConfiguration$1.class
 org/kurento/jsonrpc/internal/ws/JsonRpcWebSocketHandler$1.class
+org/kurento/jsonrpc/internal/server/ProtocolManager$4.class
 org/kurento/jsonrpc/internal/server/config/JsonRpcConfiguration.class
 org/kurento/jsonrpc/internal/http/JsonRpcHttpRequestHandler$HttpRequestServerSession.class
 org/kurento/jsonrpc/internal/http/JsonRpcHttpRequestHandler$HttpRequestServerSession$1.class
