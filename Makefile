@@ -105,23 +105,15 @@ langdoc:
 	  cd  $(BUILDDIR)/langdoc && git clone https://github.com/Kurento/kurento-java.git && cd kurento-java && git checkout kurento-java-$(KURENTO_JAVA_VERSION) || git checkout $(KURENTO_JAVA_VERSION) || echo "Using master branch"
 	  mv $(BUILDDIR)/langdoc/kurento-java/kurento-jsonrpc/kurento-jsonrpc-client $(BUILDDIR)/langdoc/kurento-jsonrpc-client
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-client/* $(BUILDDIR)/langdoc/kurento-jsonrpc-client
-	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-client && mvn clean package -DskipTests
-
-	  javadoc $(DOCLINT) -windowtitle "Kurento JSON-RPC Client Javadoc" \
-	    -d $(BUILDDIR)/html/langdoc/javadoc/internal \
-	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-client/src/main/java/ \
-	    -subpackages org.kurento.jsonrpc
+	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-client && mvn javadoc:javadoc -DreportOutputDirectory=../../../$(BUILDDIR)/html/langdoc/javadoc/ -DdestDir=client
 
 	  # kurento-jsonrpc-server javadoc
 	  rm -rf $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  mv $(BUILDDIR)/langdoc/kurento-java/kurento-jsonrpc/kurento-jsonrpc-server $(BUILDDIR)/langdoc/kurento-jsonrpc-server
 	  rsync -av --exclude 'target' $(BUILDDIR)/langdoc/kurento-jsonrpc-server/* $(BUILDDIR)/langdoc/kurento-jsonrpc-server
-	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-server && mvn clean package -DskipTests
+	  cd $(BUILDDIR)/langdoc/kurento-jsonrpc-server && mvn javadoc:javadoc -DreportOutputDirectory=../../../$(BUILDDIR)/html/langdoc/javadoc/ -DdestDir=server
 
-	  javadoc $(DOCLINT) -windowtitle "Kurento JSON-RPC Server Javadoc" \
-	    -d $(BUILDDIR)/html/langdoc/javadoc/server \
-	    -sourcepath $(BUILDDIR)/langdoc/kurento-jsonrpc-server/src/main/java/ \
-	    -subpackages org.kurento.jsonrpc
+	  rm -rf $(BUILDDIR)/langdoc
 
 qthelp:
 	$(SPHINXBUILD) -b qthelp $(ALLSPHINXOPTS) $(BUILDDIR)/qthelp

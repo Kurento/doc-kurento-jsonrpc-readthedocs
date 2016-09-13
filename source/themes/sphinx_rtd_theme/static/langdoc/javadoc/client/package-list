@@ -1,0 +1,6 @@
+org.kurento.jsonrpc
+org.kurento.jsonrpc.client
+org.kurento.jsonrpc.internal
+org.kurento.jsonrpc.internal.client
+org.kurento.jsonrpc.internal.ws
+org.kurento.jsonrpc.message
