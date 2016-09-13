@@ -8,9 +8,9 @@
 Copyright © 2013-2016 [Kurento]. Licensed under [Apache 2.0 License].
 
 doc-kurento-jsonrpc
-================
+===================
 
-Kurento Repository project documentation. Made with [Sphinx] and [Read-the-docs] 
+Kurento JSON-RPC project documentation. Made with [Sphinx] and [Read-the-docs]
 theme.
 
 To install the Sphinx software requirements in Ubuntu 14.04 LTS:
