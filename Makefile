@@ -5,11 +5,11 @@
 # IMPORTANT: Notice that DOC_VERSION should be the same as variable "release" in conf.py,
 # so when this variable is updated, it should be also updated in conf.py
 
-DOC_VERSION = 6.5.1-dev
-KMS_VERSION = 6.5.0
-KURENTO_JAVA_VERSION = 6.5.1-SNAPSHOT
-SPRING_BOOT_VERSION = 1.3.0.RELEASE
-SPRING_VERSION = 4.2.3.RELEASE
+DOC_VERSION = 6.6.0
+KMS_VERSION = 6.6.0
+KURENTO_JAVA_VERSION = 6.6.0
+SPRING_BOOT_VERSION = 1.3.6.RELEASE
+SPRING_VERSION = 4.2.7.RELEASE
 
 # You can set these variables from the command line.
 SPHINXOPTS    =

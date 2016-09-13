@@ -11,7 +11,7 @@ to be added to the project’s pom:
    <dependency>
        <groupId>org.kurento</groupId>
        <artifactId>kurento-jsonrpc-server</artifactId>
-       <version>6.5.1-SNAPSHOT</version>
+       <version>6.6.0</version>
    </dependency>
 
 Creating a client
